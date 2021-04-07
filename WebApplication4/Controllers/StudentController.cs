@@ -34,13 +34,13 @@ namespace WebApplication4.Controllers
                                   Description = a.Description,
                                   DeptID = a.DeptID,
 
-                                  Department = b==null?"":b.Department
+                                  Department = b == null ? "" : b.Department
                               };
 
 
                 return View(stdList);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
                 return View();
@@ -81,11 +81,25 @@ namespace WebApplication4.Controllers
 
                 return View();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return RedirectToAction("StudentList");
             }
-        
+
+        }
+
+        public async Task<IActionResult> Search(string searchString)
+        {
+          
+                var srh = from m in _Db.tbl_Student
+                             select m;
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    srh = srh.Where(s => s.Name.Contains(searchString));
+
+                }
+
+                return View(await srh.ToListAsync());
         }
 
 

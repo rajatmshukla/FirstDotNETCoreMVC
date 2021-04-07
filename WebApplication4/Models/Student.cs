@@ -11,13 +11,13 @@ namespace WebApplication4.Models
     {
        [Key]
         public int ID { get; set; }
-
+        [Required]
         public string Name { get; set; }
-
+        [Required]
         public string FName { get; set; }
-
+        [Required]
         public string Email { get; set; }
-
+        
         public int DeptID { get; set; }
 
         public string Mobile { get; set; }
@@ -27,6 +27,6 @@ namespace WebApplication4.Models
         
         [NotMapped]
         public string Department { get; set; }
-
+       
     }
 }
