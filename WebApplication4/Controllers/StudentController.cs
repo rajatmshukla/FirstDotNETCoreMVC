@@ -88,19 +88,49 @@ namespace WebApplication4.Controllers
 
         }
 
-        public async Task<IActionResult> Search(string searchString)
+        [HttpGet]
+        public async Task<IActionResult> StudentList(string Stdsearch)
         {
-          
-                var srh = from m in _Db.tbl_Student
-                             select m;
-                if (!String.IsNullOrEmpty(searchString))
-                {
-                    srh = srh.Where(s => s.Name.Contains(searchString));
+            ViewData["GetStudentDetails"] = Stdsearch;
+            var Stdquery = from a in _Db.tbl_Student
+                           join b in _Db.Dept
+                           on a.DeptID equals b.ID into Dep
+                           from b in Dep.DefaultIfEmpty()
+                           select new Student
+                           {
+                               ID = a.ID,
+                               Name = a.Name,
+                               FName = a.FName,
+                               Mobile = a.Mobile,
+                               Email = a.Email,
+                               Description = a.Description,
+                               DeptID = a.DeptID,
 
-                }
+                               Department = b == null ? "" : b.Department
+                           };
+            if (!string.IsNullOrEmpty(Stdsearch))
+            {
+                Stdquery = Stdquery.Where(x => x.Name.Contains(Stdsearch));
+            }
+            return View(await Stdquery.AsNoTracking().ToListAsync());
 
-                return View(await srh.ToListAsync());
+
         }
+
+
+        //public async Task<IActionResult> Search(string searchString)
+        //{
+          
+        //        var srh = from m in _Db.tbl_Student
+        //                     select m;
+        //        if (!String.IsNullOrEmpty(searchString))
+        //        {
+        //            srh = srh.Where(s => s.Name.Contains(searchString));
+
+        //        }
+
+        //        return View(await srh.ToListAsync());
+        //}
 
 
 

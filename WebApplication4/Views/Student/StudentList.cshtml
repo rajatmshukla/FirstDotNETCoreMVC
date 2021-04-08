@@ -5,15 +5,18 @@
 }
 
 <h1>StudentList</h1>
-<form asp-action="Search" >
+@*<form  asp-action="Search">
     <p class="float-left">
         Name: <input type="text" name="searchString">
         <input type="submit" value="Search" />
 
     </p>
+</form>*@
+
+<form method="get" asp-action="StudentList">
+    <input type="search" placeholder="Enter " value="@ViewData["GetStudentDetails"]" name="Stdsearch" />
+    <input type="submit" value="Search" class="btn btn-primary" />
 </form>
-
-
 
 <p class="float-right">
     <a asp-action="Create" class="btn btn-outline-primary">Add New </a>
